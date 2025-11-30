@@ -176,7 +176,22 @@ The robot can **detect fire, smoke/gas, high temperature, high humidity, obstacl
 
 ---
 
+
 ## 📜 License
 
-Released under the **MIT License** — free to use, modify, and improve.
+This project is licensed under the ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)  
+
+---
+
+## 👨‍💻 Author
+
+**Najmul Alam Efti**
+
+🎓 Premier University, Chittagong
+
+📧 \[najmul27alam@gmail.com]
+
+🌐 [Live Demo](https://covgene.netlify.app)
+
+---
 
