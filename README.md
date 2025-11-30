@@ -165,10 +165,8 @@ The robot can **detect fire, smoke/gas, high temperature, high humidity, obstacl
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/18ba8220-5734-4624-b505-38ef4cd53c77" width="300">
-  <img src="![WhatsApp Image 2025-11-29 at 04 55 59_27e04d3e](https://github.com/user-attachments/assets/d5fd023d-1a18-4970-bcd1-644ca4b9a8c7)
-" width="300">
- <img src="![WhatsApp Image 2025-11-29 at 04 55 59_7b20024e](https://github.com/user-attachments/assets/11316b26-3c52-4d9f-a821-f81a0709ecfd)
-" width="300">
+  <img src="https://github.com/user-attachments/assets/d5fd023d-1a18-4970-bcd1-644ca4b9a8c7" width="300">
+  <img src="https://github.com/user-attachments/assets/11316b26-3c52-4d9f-a821-f81a0709ecfd" width="300">
 </p>
 
 
