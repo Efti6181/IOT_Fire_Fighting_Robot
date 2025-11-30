@@ -1,536 +1,191 @@
-Here is an **even more polished, premium-quality GitHub README**, written in a clean, professional style — perfect for showcasing your project.
-You can **copy–paste directly** into GitHub with no changes needed.
+# 🚒 IoT Fire-Fighting Robot (ESP32 Based)
+
+An advanced **IoT fire-fighting and safety robot** built using ESP32, flame sensors, gas sensor, temperature/humidity sensors, servo-controlled water extinguisher, mist maker, fan, and full 4WD motor chassis.
+The robot can **detect fire, smoke/gas, high temperature, high humidity, obstacles** and automatically respond, along with full **manual control over WiFi**.
 
 ---
 
-# 🔥🤖 IoT-Based Autonomous Fire-Fighting & Environmental Monitoring Robot
+## 🔥 Features
 
-*A complete multi-hazard safety robot with fire detection, gas sensing, environmental monitoring, autonomous movement, and IoT control — powered by ESP32.*
+### **🔥 Fire Detection & Water Extinguish System**
 
----
+* 3 Flame sensors: **Left, Middle, Right**
+* Robot moves toward the fire direction
+* Auto activates:
 
-## 📘 **Introduction**
+  * Red LED
+  * Buzzer
+  * Water Pump
+  * **Servo sweeps 0°–90° (4 times)** to spray water
 
-This project presents an **IoT-enabled autonomous fire-fighting robot** capable of detecting fire, harmful gases, temperature rise, humidity imbalance, and nearby obstacles.
-Using dual ESP32 microcontrollers, multiple sensors, relays, and a servo-based water spray system, the robot can **locate fire direction automatically**, extinguish it using a water pump, and provide **real-time monitoring** through a web dashboard — even **offline**, without internet.
+### **🧪 Gas Detection (MQ-2)**
 
-Designed for safety, low cost, and accessibility, this system is ideal for **homes, small industries, workshops, and rural areas**.
+* Detects gas/smoke
+* Runs **Fan for 10 seconds**
+* Green LED ON
+* Buzzer active
 
----
+### **🌡 Temperature & Humidity Control**
 
-## 🚀 **Key Features**
+* 2× DHT11 sensors
+* If:
 
-### 🔥 Fire Detection & Extinguishing
+  * **Temperature ≥ 40°C**, or
+  * **Humidity ≥ 80%**
+* **Mist maker** turns ON to reduce heat/humidity
 
-* 3 flame sensors (Left, Middle, Right) detect fire direction.
-* Robot automatically moves toward the fire.
-* Water pump activated to spray water.
-* Servo rotates 0°→90° four times to cover a wider area.
-* Red LED + buzzer activated during fire mode.
+### **🚧 Obstacle Detection**
 
-### 🏭 Gas Detection (MQ-2)
+* Ultrasonic sensor (HC-SR04)
+* If object ≤ **5 cm** → Buzzer gives **pip-pip** alert
 
-* Detects smoke, LPG, methane & general hazardous gas.
-* Automatically turns on fan for 10 seconds.
-* Green LED + buzzer alert.
+### **🎮 Manual RC-Style Control**
 
-### 🌡 Temperature & Humidity Control
+* Web dashboard allows:
 
-* Dual DHT11 sensors monitor environment.
-* If **Temp > 40°C** or **Humidity > 80%** → Mist maker activates.
-* Helps reduce heat and maintain safe humidity levels.
+  * Forward / Backward / Left / Right
+  * Pump ON/OFF
+  * Fan ON/OFF
+  * Mist Maker ON/OFF
+  * Real-time sensor reading
 
-### 🚧 Obstacle Detection
+### **📡 WiFi + Offline Website**
 
-* Ultrasonic sensor detects objects within **5 cm**.
-* Buzzer gives “pip-pip” warning for collision prevention.
-
-### 🌐 Offline IoT Control (No Internet Needed)
-
-* ESP32 creates its own Wi-Fi hotspot.
-* Connect via phone/laptop browser.
-* Control robot like an RC car: Forward/Back/Left/Right/Stop.
-* Manually control pump, fan, mist maker.
-* View **real-time**:
+* ESP32 creates its **own WiFi hotspot (AP Mode)**
+* Custom local webpage hosted on ESP32
+* Works **completely offline**
+* Shows:
 
   * Temperature
   * Humidity
   * Distance
-  * Flame status
+  * Fire status
   * Gas status
-  * Device on/off indicators
+  * Pump/Fan/Mist/LED/Servo status
 
 ---
 
-## 🛠️ **Hardware Components**
+## 🛠 Hardware Used
 
-* **ESP32 (x2)**
-* **4WD Chassis + DC Motors**
-* **L298N Motor Driver**
-* **Flame Sensors (x3)**
-* **DHT11 Sensors (x2)**
-* **MQ-2 Gas Sensor**
-* **Ultrasonic Sensor**
-* **Servo Motor**
-* **5V Water Pump**
-* **Cooling Fan**
-* **Mist Maker**
-* **Two-Channel Relay**
-* **One-Channel Relay**
-* **DC-DC Buck Converter**
-* **Li-ion Battery Packs (2-cell & 3-cell)**
-* **Buzzers (x2)**
-* **Green & Red LED**
-
----
-
-## ⚙️ **System Architecture**
-
-```
-                 ┌──────── Flame Sensors ────────┐
-                 │                                │
-      [ESP32 #1] ─── Motor Driver ─── 4WD Drive   │
-                 │                                │
-                 └──── Water Pump + Servo ────────┘
-
-
-                 ┌──────── DHT11 Sensors ─────────┐
-                 │                                │
-                 ├──────── MQ-2 Gas Sensor ───────┤
-      [ESP32 #2]─┤                                ├── Web Dashboard (AP Mode)
-                 ├──── Ultrasonic Sensor ─────────┤
-                 │                                │
-                 └─ Fan, Mist Maker, LEDs, Buzzers┘
-```
+| Component                  | Qty |
+| -------------------------- | --- |
+| ESP32                      | 2   |
+| 4WD Motor Chassis          | 1   |
+| L298N Motor Driver         | 1   |
+| Flame Sensor               | 3   |
+| DHT11 Sensor               | 2   |
+| MQ-2 Gas Sensor            | 1   |
+| Ultrasonic HC-SR04         | 1   |
+| Servo Motor                | 1   |
+| 2-Channel Relay            | 1   |
+| 1-Channel Relay            | 1   |
+| DC-DC Buck Converter       | 1   |
+| 3× 3.7V Battery Pack (12V) | 1   |
+| 2× 3.7V Battery Pack (8V)  | 1   |
+| Water Pump (5V)            | 1   |
+| Fan                        | 1   |
+| Mist Maker                 | 1   |
+| Buzzer                     | 2   |
+| Green LED                  | 1   |
+| Red LED                    | 1   |
 
 ---
 
-## 🧩 **How the Robot Works**
+## 🔌 Power Architecture
 
-### 🟥 Fire Mode
+### **🔋 12V (3× 3.7V Battery Pack)**
 
-| Flame Detected | Robot Movement | Actions                                    |
-| -------------- | -------------- | ------------------------------------------ |
-| Left           | Turn left      | Pump ON, Servo sweeps, Buzzer + Red LED ON |
-| Middle         | Move forward   | Same actions                               |
-| Right          | Turn right     | Same actions                               |
+* Powers **L298N** → drives 4WD motors
 
-### 🟩 Gas Mode (MQ-2)
+### **🔋 8V (2× 3.7V Battery Pack → Buck Converter → 5V)**
 
-* Fan ON (10s)
-* Green LED ON
-* Buzzer alert
+* Powers:
 
-### 🟦 Temperature/Humidity Mode
+  * Both ESP32 boards
+  * All sensors
+  * Servo
 
-* Temp > 40°C OR Humidity > 80% → Mist maker ON
+### **⚡ L298N 5V Output**
 
-### 🟨 Obstacle Mode
+* Powers:
 
-* Distance ≤ 5 cm → Buzzer “pip-pip”
-
-### 🟧 Manual IoT Mode
-
-* Web dashboard RC control
-* Manual switching of pump, fan, mist maker
-* Live sensor feedback
+  * Water Pump
+  * Mist Maker
+  * Fan
 
 ---
 
-## 🧪 **Results**
+## 📡 Connectivity
 
-* Accurate directional fire detection and movement.
-* Quick response to gas leaks.
-* Mist maker effectively lowers temperature/humidity.
-* Stable 4WD motion with good traction.
-* Web UI updates instantly with no internet required.
-* Successfully extinguished real test flames.
+* Robot creates a WiFi hotspot using ESP32 (AP Mode)
+* User connects via phone or laptop
+* Website works offline
+* Control + real-time monitoring supported
 
 ---
 
-## ⚠️ **Errors & Limitations**
+## 🌐 Web Dashboard
 
-* Water spray accuracy affected by wind.
-* Wi-Fi hotspot range limited (depends on ESP32 power).
-* Battery drains fast during heavy use (pump + fan).
-* Servo slows when battery voltage drops.
-* MQ-2 accuracy affected by humidity.
-* Ultrasonic sensor gives incorrect values on soft/angled surfaces.
-* Pump pressure decreases when water level is low.
-* Continuous use requires frequent recharging.
+### **Displays:**
 
----
+* Temperature
+* Humidity
+* Ultrasonic Distance
+* Fire Detected?
+* Gas Detected?
+* Pump Status
+* Fan Status
+* Mist Maker Status
+* Servo Status
+* LED + Buzzer states
 
-## 🌱 **Impact Assessment**
+### **Controls:**
 
-### **Health & Safety**
-
-* Prevents fire spread and reduces life risk.
-* Detects harmful gases early.
-* Automates hazardous tasks, keeping humans safe.
-
-### **Societal**
-
-* Low-cost disaster-prevention tool.
-* Beneficial for rural homes, small shops, and workshops.
-* Enhances awareness of home safety.
-
-### **Environmental**
-
-* Uses **water**, not chemicals.
-* Rechargeable batteries reduce waste.
-* Low-power sensors save energy.
-
-### **Economic**
-
-* Built using affordable components.
-* Reduces property loss from fires.
-* Easy to maintain and repair.
-
-### **Ethical**
-
-* Promotes responsible engineering design.
-* Avoids any harmful surveillance features.
-* Uses transparent, sensor-based decisions.
-
-### **Teamwork & Learning**
-
-* Improved coding, web development, electronics, and robotics skills.
-* Learned problem-solving, debugging, and system integration.
+* Manual movement (Forward/Back/Left/Right)
+* Pump ON/OFF
+* Fan ON/OFF
+* Mist Maker ON/OFF
+* Servo toggle
 
 ---
 
-## 📁 **Repository Structure**
+## 🧠 Working Logic (Summary)
 
-```
-📂 FireFighting-Robot/
-│── src/
-│── web-dashboard/
-│── circuits/
-│── images/
-│── README.md
-│── LICENSE
-```
-
----
-
-## ▶️ **How to Use**
-
-1. Upload code to both ESP32 boards.
-2. Assemble hardware as per the circuit diagram.
-3. Power the system:
-
-   * 12V battery → L298N
-   * 8V battery → Buck converter → ESP32 + sensors
-4. Connect to ESP32 hotspot:
-
-   ```
-   SSID: FireFighter_AP
-   Password: 12345678
-   ```
-5. Open the IP shown in Serial Monitor.
-6. Control robot + view live data.
+| Event                        | Robot Action                                         |
+| ---------------------------- | ---------------------------------------------------- |
+| Left Flame Detected          | Turn left + red LED + buzzer + pump + servo spray    |
+| Middle Flame Detected        | Move forward + red LED + buzzer + pump + servo spray |
+| Right Flame Detected         | Turn right + red LED + buzzer + pump + servo spray   |
+| MQ-2 Gas Detected            | Fan ON 10s + green LED + buzzer                      |
+| Temp ≥ 40°C / Humidity ≥ 80% | Mist Maker ON                                        |
+| Obstacle ≤ 5 cm              | Buzzer pip-pip                                       |
+| Manual Web Input             | RC-style movement + device control                   |
 
 ---
 
-## 📸 **Project Photos & Demo**
 
-*(Add images here)*
 
----
 
-## 🔮 **Future Improvements**
+## 🧪 Testing Checklist
 
-* AI-based fire classification (ESP32-CAM)
-* Fire-resistant chassis
-* Stronger water spray
-* Android/iOS App
-* Fully autonomous navigation
-
----
-
-## 👤 **Author**
-
-**Najmul Alam Efti**
-IoT & Robotics Developer
+* [ ] Flame detection working (L/M/R)
+* [ ] Servo + pump spraying correct
+* [ ] Gas detection triggers fan
+* [ ] Mist maker starts at high temp/humidity
+* [ ] Ultrasonic distance correct
+* [ ] Chassis movement correct
+* [ ] Website loads offline
+* [ ] All manual ON/OFF controls working
 
 ---
 
-## ⭐ **Support the Project**
+## 📷 Photos / Videos
 
-If you found this project useful, please consider giving the repository a **⭐Star**!
-
----
-
-If you want, sir, I can also:
-✅ Add GitHub badges (Release, License, Hardware Used, Made with ❤️ etc.)
-✅ Create a project banner/header
-Just tell me!
-Here is an **even more polished, premium-quality GitHub README**, written in a clean, professional style — perfect for showcasing your project.
-You can **copy–paste directly** into GitHub with no changes needed.
+(Add your images or GIFs here)
 
 ---
 
-# 🔥🤖 IoT-Based Autonomous Fire-Fighting & Environmental Monitoring Robot
+## 📜 License
 
-*A complete multi-hazard safety robot with fire detection, gas sensing, environmental monitoring, autonomous movement, and IoT control — powered by ESP32.*
+Released under the **MIT License** — free to use, modify, and improve.
 
----
-
-## 📘 **Introduction**
-
-This project presents an **IoT-enabled autonomous fire-fighting robot** capable of detecting fire, harmful gases, temperature rise, humidity imbalance, and nearby obstacles.
-Using dual ESP32 microcontrollers, multiple sensors, relays, and a servo-based water spray system, the robot can **locate fire direction automatically**, extinguish it using a water pump, and provide **real-time monitoring** through a web dashboard — even **offline**, without internet.
-
-Designed for safety, low cost, and accessibility, this system is ideal for **homes, small industries, workshops, and rural areas**.
-
----
-
-## 🚀 **Key Features**
-
-### 🔥 Fire Detection & Extinguishing
-
-* 3 flame sensors (Left, Middle, Right) detect fire direction.
-* Robot automatically moves toward the fire.
-* Water pump activated to spray water.
-* Servo rotates 0°→90° four times to cover a wider area.
-* Red LED + buzzer activated during fire mode.
-
-### 🏭 Gas Detection (MQ-2)
-
-* Detects smoke, LPG, methane & general hazardous gas.
-* Automatically turns on fan for 10 seconds.
-* Green LED + buzzer alert.
-
-### 🌡 Temperature & Humidity Control
-
-* Dual DHT11 sensors monitor environment.
-* If **Temp > 40°C** or **Humidity > 80%** → Mist maker activates.
-* Helps reduce heat and maintain safe humidity levels.
-
-### 🚧 Obstacle Detection
-
-* Ultrasonic sensor detects objects within **5 cm**.
-* Buzzer gives “pip-pip” warning for collision prevention.
-
-### 🌐 Offline IoT Control (No Internet Needed)
-
-* ESP32 creates its own Wi-Fi hotspot.
-* Connect via phone/laptop browser.
-* Control robot like an RC car: Forward/Back/Left/Right/Stop.
-* Manually control pump, fan, mist maker.
-* View **real-time**:
-
-  * Temperature
-  * Humidity
-  * Distance
-  * Flame status
-  * Gas status
-  * Device on/off indicators
-
----
-
-## 🛠️ **Hardware Components**
-
-* **ESP32 (x2)**
-* **4WD Chassis + DC Motors**
-* **L298N Motor Driver**
-* **Flame Sensors (x3)**
-* **DHT11 Sensors (x2)**
-* **MQ-2 Gas Sensor**
-* **Ultrasonic Sensor**
-* **Servo Motor**
-* **5V Water Pump**
-* **Cooling Fan**
-* **Mist Maker**
-* **Two-Channel Relay**
-* **One-Channel Relay**
-* **DC-DC Buck Converter**
-* **Li-ion Battery Packs (2-cell & 3-cell)**
-* **Buzzers (x2)**
-* **Green & Red LED**
-
----
-
-## ⚙️ **System Architecture**
-
-```
-                 ┌──────── Flame Sensors ────────┐
-                 │                                │
-      [ESP32 #1] ─── Motor Driver ─── 4WD Drive   │
-                 │                                │
-                 └──── Water Pump + Servo ────────┘
-
-
-                 ┌──────── DHT11 Sensors ─────────┐
-                 │                                │
-                 ├──────── MQ-2 Gas Sensor ───────┤
-      [ESP32 #2]─┤                                ├── Web Dashboard (AP Mode)
-                 ├──── Ultrasonic Sensor ─────────┤
-                 │                                │
-                 └─ Fan, Mist Maker, LEDs, Buzzers┘
-```
-
----
-
-## 🧩 **How the Robot Works**
-
-### 🟥 Fire Mode
-
-| Flame Detected | Robot Movement | Actions                                    |
-| -------------- | -------------- | ------------------------------------------ |
-| Left           | Turn left      | Pump ON, Servo sweeps, Buzzer + Red LED ON |
-| Middle         | Move forward   | Same actions                               |
-| Right          | Turn right     | Same actions                               |
-
-### 🟩 Gas Mode (MQ-2)
-
-* Fan ON (10s)
-* Green LED ON
-* Buzzer alert
-
-### 🟦 Temperature/Humidity Mode
-
-* Temp > 40°C OR Humidity > 80% → Mist maker ON
-
-### 🟨 Obstacle Mode
-
-* Distance ≤ 5 cm → Buzzer “pip-pip”
-
-### 🟧 Manual IoT Mode
-
-* Web dashboard RC control
-* Manual switching of pump, fan, mist maker
-* Live sensor feedback
-
----
-
-## 🧪 **Results**
-
-* Accurate directional fire detection and movement.
-* Quick response to gas leaks.
-* Mist maker effectively lowers temperature/humidity.
-* Stable 4WD motion with good traction.
-* Web UI updates instantly with no internet required.
-* Successfully extinguished real test flames.
-
----
-
-## ⚠️ **Errors & Limitations**
-
-* Water spray accuracy affected by wind.
-* Wi-Fi hotspot range limited (depends on ESP32 power).
-* Battery drains fast during heavy use (pump + fan).
-* Servo slows when battery voltage drops.
-* MQ-2 accuracy affected by humidity.
-* Ultrasonic sensor gives incorrect values on soft/angled surfaces.
-* Pump pressure decreases when water level is low.
-* Continuous use requires frequent recharging.
-
----
-
-## 🌱 **Impact Assessment**
-
-### **Health & Safety**
-
-* Prevents fire spread and reduces life risk.
-* Detects harmful gases early.
-* Automates hazardous tasks, keeping humans safe.
-
-### **Societal**
-
-* Low-cost disaster-prevention tool.
-* Beneficial for rural homes, small shops, and workshops.
-* Enhances awareness of home safety.
-
-### **Environmental**
-
-* Uses **water**, not chemicals.
-* Rechargeable batteries reduce waste.
-* Low-power sensors save energy.
-
-### **Economic**
-
-* Built using affordable components.
-* Reduces property loss from fires.
-* Easy to maintain and repair.
-
-### **Ethical**
-
-* Promotes responsible engineering design.
-* Avoids any harmful surveillance features.
-* Uses transparent, sensor-based decisions.
-
-### **Teamwork & Learning**
-
-* Improved coding, web development, electronics, and robotics skills.
-* Learned problem-solving, debugging, and system integration.
-
----
-
-## 📁 **Repository Structure**
-
-```
-📂 FireFighting-Robot/
-│── src/
-│── web-dashboard/
-│── circuits/
-│── images/
-│── README.md
-│── LICENSE
-```
-
----
-
-## ▶️ **How to Use**
-
-1. Upload code to both ESP32 boards.
-2. Assemble hardware as per the circuit diagram.
-3. Power the system:
-
-   * 12V battery → L298N
-   * 8V battery → Buck converter → ESP32 + sensors
-4. Connect to ESP32 hotspot:
-
-   ```
-   SSID: FireFighter_AP
-   Password: 12345678
-   ```
-5. Open the IP shown in Serial Monitor.
-6. Control robot + view live data.
-
----
-
-## 📸 **Project Photos & Demo**
-
-*(Add images here)*
-
----
-
-## 🔮 **Future Improvements**
-
-* AI-based fire classification (ESP32-CAM)
-* Fire-resistant chassis
-* Stronger water spray
-* Android/iOS App
-* Fully autonomous navigation
-
----
-
-## 👤 **Author**
-
-**Najmul Alam Efti**
-IoT & Robotics Developer
-
----
-
-## ⭐ **Support the Project**
-
-If you found this project useful, please consider giving the repository a **⭐Star**!
-
----
-
-If you want, sir, I can also:
-✅ Add GitHub badges (Release, License, Hardware Used, Made with ❤️ etc.)
-✅ Create a project banner/header
-Just tell me!
