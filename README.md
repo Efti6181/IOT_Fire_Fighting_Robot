@@ -91,29 +91,11 @@ The robot can **detect fire, smoke/gas, high temperature, high humidity, obstacl
 
 ---
 
-## 🔌 Power Architecture
+## 🔌 System Design (Block Diagram)
 
-### **🔋 12V (3× 3.7V Battery Pack)**
+<img width="572" height="623" alt="image" src="https://github.com/user-attachments/assets/9358d81b-38cb-4981-be7d-fb1cec92b746" />
 
-* Powers **L298N** → drives 4WD motors
 
-### **🔋 8V (2× 3.7V Battery Pack → Buck Converter → 5V)**
-
-* Powers:
-
-  * Both ESP32 boards
-  * All sensors
-  * Servo
-
-### **⚡ L298N 5V Output**
-
-* Powers:
-
-  * Water Pump
-  * Mist Maker
-  * Fan
-
----
 
 ## 📡 Connectivity
 
