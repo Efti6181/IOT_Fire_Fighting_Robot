@@ -3,16 +3,14 @@
 #include <DHT.h>
 #include <ESP32Servo.h>
 
-// ========== WiFi Credentials ==========
+//WiFi 
 const char* ssid = "Efti";
 const char* password = "efti2001";
 
-// ========== Create Objects ==========
 WebServer server(80);
 DHT dht(15, DHT11);
 Servo waterServo;
-
-// ========== Pin Definitions ==========
+//Pin
 // Motor Driver Pins
 #define ENA 25
 #define IN1 13
@@ -21,30 +19,20 @@ Servo waterServo;
 #define IN4 27
 #define ENB 26
 
-// Flame Sensor Pins
 #define FLAME_LEFT 32
 #define FLAME_MIDDLE 33
 #define FLAME_RIGHT 34
-
-// Gas Sensor Pin
 #define GAS_SENSOR 35
-
-// DHT11 Pin
 #define DHT_PIN 15
-
-// Servo Pin
 #define SERVO_PIN 23
 
 // Relay Pins
 #define PUMP_RELAY 18
 #define FAN_RELAY 19
-
-// LED and Buzzer Pins
 #define RED_LED 21
 #define BLUE_LED 22
 #define BUZZER 4
 
-// ========== Global Variables ==========
 float temperature = 0;
 float humidity = 0;
 bool autoMode = true;
@@ -57,7 +45,6 @@ unsigned long fanStartTime = 0;
 bool fanTimerActive = false;
 bool gasWasDetected = false;
 
-// ========== Setup Function ==========
 void setup() {
   Serial.begin(115200);
   Serial.println("\n=== Firefighting Robot Starting ===");
@@ -70,19 +57,17 @@ void setup() {
   pinMode(IN4, OUTPUT);
   pinMode(ENB, OUTPUT);
   
-  // Sensor pins
+
   pinMode(FLAME_LEFT, INPUT);
   pinMode(FLAME_MIDDLE, INPUT);
   pinMode(FLAME_RIGHT, INPUT);
   pinMode(GAS_SENSOR, INPUT);
-  
-  // Relay pins
+
   pinMode(PUMP_RELAY, OUTPUT);
   pinMode(FAN_RELAY, OUTPUT);
   digitalWrite(PUMP_RELAY, HIGH);  // OFF
   digitalWrite(FAN_RELAY, HIGH);   // OFF
   
-  // LED and Buzzer pins
   pinMode(RED_LED, OUTPUT);
   pinMode(BLUE_LED, OUTPUT);
   pinMode(BUZZER, OUTPUT);
@@ -90,7 +75,6 @@ void setup() {
   digitalWrite(BLUE_LED, LOW);
   digitalWrite(BUZZER, LOW);
   
-  // Initialize DHT
   dht.begin();
   
   // Initialize Servo (SIMPLE METHOD THAT WORKED!)
@@ -98,7 +82,7 @@ void setup() {
   waterServo.write(90);  // Center position
   delay(500);
   
-  // Test servo
+  // servo test
   Serial.println("Testing servo...");
   waterServo.write(30);
   delay(500);
@@ -107,7 +91,7 @@ void setup() {
   waterServo.write(90);
   Serial.println("Servo OK!");
   
-  // Test buzzer
+  // buzzer test
   Serial.println("Testing buzzer...");
   digitalWrite(BUZZER, HIGH);
   delay(300);
@@ -150,17 +134,15 @@ void setup() {
   Serial.println("============================\n");
 }
 
-// ========== Main Loop ==========
+
 void loop() {
   server.handleClient();
   
-  // Read sensors
   temperature = dht.readTemperature();
   humidity = dht.readHumidity();
   if (isnan(temperature)) temperature = 0;
   if (isnan(humidity)) humidity = 0;
   
-  // Read flame sensors (Active LOW)
   bool flameLeft = (digitalRead(FLAME_LEFT) == LOW);
   bool flameMiddle = (digitalRead(FLAME_MIDDLE) == LOW);
   bool flameRight = (digitalRead(FLAME_RIGHT) == LOW);
@@ -169,10 +151,10 @@ void loop() {
   // Read gas sensor (Active LOW)
   bool gasDetected = (digitalRead(GAS_SENSOR) == LOW);
   
-  // ========== AUTO MODE LOGIC ==========
+  // AUTO MODE LOGIC
   if (autoMode) {
     
-    // ===== FIRE DETECTION =====
+    //FIRE DETECTION
     if (anyFlame) {
       digitalWrite(RED_LED, HIGH);      // Red LED ON
       digitalWrite(BUZZER, HIGH);       // Buzzer ON
@@ -250,7 +232,7 @@ void loop() {
       statusMessage = "🔍 Scanning for fire...";
     }
     
-    // ===== GAS DETECTION =====
+    // GAS DETECTION 
     if (gasDetected && !gasWasDetected) {
       // Gas just detected (first time)
       digitalWrite(BLUE_LED, HIGH);
@@ -283,7 +265,7 @@ void loop() {
     }
     
   } else {
-    // ===== MANUAL MODE =====
+    // MANUAL MODE
     // LEDs still work as indicators
     if (anyFlame) {
       digitalWrite(RED_LED, HIGH);
@@ -317,7 +299,7 @@ void loop() {
   delay(50);
 }
 
-// ========== Servo Sweep Function (4 TIMES, 30-150 degrees) ==========
+//Servo Sweep Function (4 TIMES, 30-150 degrees)
 void servoSweep4Times() {
   Serial.println("Starting 4 servo sweeps...");
   
@@ -328,7 +310,7 @@ void servoSweep4Times() {
     // Sweep from 30 to 150 degrees
     for (int pos = 30; pos <= 150; pos += 5) {
       waterServo.write(pos);
-      delay(30);  // Smooth movement
+      delay(30);
     }
     
     // Sweep back from 150 to 30 degrees
@@ -341,7 +323,7 @@ void servoSweep4Times() {
   Serial.println("Servo sweep complete!");
 }
 
-// ========== Motor Control Functions ==========
+// Motor Control Functions
 void moveForward() {
   analogWrite(ENA, motorSpeed);
   analogWrite(ENB, motorSpeed);
@@ -387,7 +369,7 @@ void stopMotors() {
   digitalWrite(IN4, LOW);
 }
 
-// ========== Web Server Handlers ==========
+// Web Server Handlers
 
 void handleRoot() {
   String html = R"=====(
@@ -897,7 +879,6 @@ void handleRoot() {
   server.send(200, "text/html", html);
 }
 
-// Status endpoint - returns JSON
 void handleStatus() {
   String json = "{";
   json += "\"temp\":\"" + String(temperature, 1) + "\",";
