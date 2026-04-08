@@ -75,20 +75,20 @@ void setup() {
 
   dht.begin();
 
-  // ---- AP MODE ----
+  // AP MODE 
   WiFi.mode(WIFI_AP);
   WiFi.softAP(ssid, password);
 
-  delay(1500);  // IMPORTANT — AP fully start hoy
+  delay(1500); 
 
   Serial.println("Hotspot created.");
   Serial.print("SSID: "); Serial.println(ssid);
   Serial.print("PASS: "); Serial.println(password);
 
-  // ---- AP IP PRINT FIX ----
+
   IPAddress apIP = WiFi.softAPIP();
   Serial.print("ESP32 AP IP: ");
-  Serial.println(apIP);   // Ei line e IP PRINT HOIBE 100000%
+  Serial.println(apIP);   
 
   server.on("/", handleWebpage);
   server.on("/pumpON", pumpOn);
@@ -105,7 +105,7 @@ void loop() {
   float temperature = dht.readTemperature();
   float humidity = dht.readHumidity();
 
-  // Buzzer pattern (your style)
+
   if (distance > 0 && distance < 10) {
     digitalWrite(BUZZER, HIGH);
     delay(80);
@@ -115,7 +115,6 @@ void loop() {
     digitalWrite(BUZZER, LOW);
   }
 
-  // Auto pump safety
   if (temperature >= 40 || humidity >= 90) {
     pumpState = true;
     digitalWrite(RELAY, LOW);
